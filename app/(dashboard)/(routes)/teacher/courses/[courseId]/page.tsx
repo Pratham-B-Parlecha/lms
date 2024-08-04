@@ -4,6 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import { TitleForm } from "./_compoment/title-form";
+import { DescriptionForm } from "./_compoment/description-form";
+import { ImageForm } from "./_compoment/image-form";
 
 const CourseIdPage = async({ params }: { params: { courseId: string }}) => {
     const { userId } = auth();
@@ -47,7 +49,9 @@ const CourseIdPage = async({ params }: { params: { courseId: string }}) => {
                             Customize your course
                         </h2>
                     </div>
-                    <TitleForm titleData={course} courseId={course.id} />
+                    <TitleForm initialData={course} courseId={course.id} />
+                    <DescriptionForm initialData={course} courseId={course.id} />
+                    <ImageForm initialData={course} courseId={course.id} />
                 </div>
             </div>
         </div>
