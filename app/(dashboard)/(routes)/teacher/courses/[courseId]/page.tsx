@@ -1,7 +1,12 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import { TitleForm } from "./_compoment/title-form";
 import { DescriptionForm } from "./_compoment/description-form";
@@ -9,6 +14,7 @@ import { ImageForm } from "./_compoment/image-form";
 import { CategoryForm } from "./_compoment/category-form";
 import { PriceForm } from "./_compoment/price-form";
 import { AttachmentForm } from "./_compoment/attachment-form";
+import { ChapterForm } from "./_compoment/chapter-form";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -19,14 +25,20 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
+      userId,
     },
     include: {
-        attachments: {
-            orderBy: {
-                createdAt: "desc"
-            }
-        }
-    }
+      chapters: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+      attachments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
   });
 
   const categories = await db.category.findMany({
@@ -45,6 +57,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.imageUrl,
     course.price,
     course.categoryId,
+    course.chapters.some(chapter => chapter.isPublished)
   ];
 
   const totalFields = requiredFields.length;
@@ -85,9 +98,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               <IconBadge icon={ListChecks} />
               <h2 className="text-xl">Course chapters</h2>
             </div>
-            <div>
-              TODO: Chapters
-            </div>
+            <ChapterForm initialData={course} courseId={course.id} />
           </div>
           <div>
             <div className="flex items-center gap-x-2">

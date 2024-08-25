@@ -86,7 +86,7 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
                </FormItem>
              )}
            />
-           <Button type="submit" disabled={!isValid || isSubmitting}>Submit</Button>
+           <Button type="submit" disabled={!isValid || isSubmitting}>Save</Button>
          </form>
        </Form>
       )}

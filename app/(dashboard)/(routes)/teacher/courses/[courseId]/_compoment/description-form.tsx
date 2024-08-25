@@ -89,7 +89,7 @@ export const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps)
                </FormItem>
              )}
            />
-           <Button type="submit" disabled={!isValid || isSubmitting}>Submit</Button>
+           <Button type="submit" disabled={!isValid || isSubmitting}>Save</Button>
          </form>
        </Form>
       )}
