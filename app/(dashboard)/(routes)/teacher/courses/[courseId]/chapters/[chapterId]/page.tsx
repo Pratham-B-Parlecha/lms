@@ -1,12 +1,13 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { ArrowLeft, Eye, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChapterTitleForm } from "./_component/chapter-title-form";
 import { ChapterDescriptionForm } from "./_component/chapter-description-form";
 import { ChapterAccessForm } from "./_component/chapter-access-form";
+import { ChapterVideoForm } from "./_component/chapter-video-form";
 
 const ChapterIdPage = async ({
   params,
@@ -48,35 +49,50 @@ const ChapterIdPage = async ({
           </Link>
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col gap-y-2">
-                <h1 className="text-2xl font-medium">
-                    Chapter Creation
-                </h1>
-                <span className="text-sm text-slate-700">
-                    Complete all field {completionText}
-                </span>
+              <h1 className="text-2xl font-medium">Chapter Creation</h1>
+              <span className="text-sm text-slate-700">
+                Complete all field {completionText}
+              </span>
             </div>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
         <div className="space-y-4">
-            <div>
-                <div className="flex items-center gap-x-2">
-                    <IconBadge icon={LayoutDashboard} />
-                    <h2>Customize your chapter</h2>
-                </div>
-                <ChapterTitleForm initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
-                <ChapterDescriptionForm initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={LayoutDashboard} />
+              <h2>Customize your chapter</h2>
             </div>
-            <div>
-                <div className="flex items-center gap-x-2">
-                    <IconBadge icon={Eye} />
-                    <h2 className="text-xl">
-                        Access Setting
-                    </h2>
-                </div>
-                <ChapterAccessForm initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
+            <ChapterTitleForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
+            <ChapterDescriptionForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
+          </div>
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={Eye} />
+              <h2 className="text-xl">Access Setting</h2>
             </div>
+            <ChapterAccessForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={Video} />
+            <h2 className="text-xl">Chapter Video</h2>
+          </div>
+          <ChapterVideoForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId} />
         </div>
       </div>
     </div>
